@@ -2,20 +2,17 @@ import React, { useState } from 'react'
 import { FlatList, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native'
 
 const TodoWhite = () => {
-    var date = new Date().getDate(); //To get the Current Date
-    var month = new Date().getMonth() + 1; //To get the Current Month
-    var year = new Date().getFullYear(); //To get the Current Year
-    currentDate = (date + '/' + month + '/' + year);
+    const date = new Date();
 
     const [todo, setTodo] = useState();
     const [data, setData] = useState([]);
     const [editMode, setEditMode] = useState(false);
-    const [editIndex, setEditIndex] = useState(-1);
+    const [editIndex, setEditIndex] = useState();
     const [selectedIndex, setSelectedIndex] = useState(null);
 
+    //Add Task
     const handleAdd = () => {
         if (!todo) {
-
         }
         else if (!editMode) {
             setData([...data, { key: Math.random().toString(), value: todo }])
@@ -29,22 +26,26 @@ const TodoWhite = () => {
         setTodo('')
     }
 
+    //Update Task
     const handleEdit = (index) => {
         setEditMode(true)
         setEditIndex(index)
         setTodo(data[index].value)
     }
 
+    //Delete Taslk
     const handleDelete = (index) => {
         const deleteTodo = [...data]
         deleteTodo.splice(index, 1)
         setData(deleteTodo)
     }
 
+    //Clear List
     const clearList = () => {
         setData([])
     }
 
+    //Selected Task
     const setColor = (index) => {
         setSelectedIndex(index)
     }
@@ -56,7 +57,7 @@ const TodoWhite = () => {
                 <Text style={styles.name}>Muhammad Umar</Text>
                 <View style={{ paddingHorizontal: 30, marginTop: "7%" }}>
                     <Text style={styles.task}>{data.length} Tasks</Text>
-                    <Text style={styles.date}>{currentDate}</Text>
+                    <Text style={styles.date}>{date.toLocaleDateString('en-US', { day: 'numeric', month: 'short', year: 'numeric' })}</Text>
                 </View>
                 <TouchableOpacity style={styles.btnClear} onPress={clearList}>
                     <Text style={styles.btnTextClear}>Clear All</Text>
@@ -72,24 +73,24 @@ const TodoWhite = () => {
                         <Text style={styles.btnTextAdd}>{editMode ? "\u2713" : "+"}</Text>
                     </TouchableOpacity>
                 </View>
-                <FlatList
-                    keyExtractor={item => item.key}
-                    data={data}
-                    renderItem={({ item, index }) => (
-                        <View style={[styles.listContainer, { backgroundColor: index === selectedIndex ? '#3642c0' : "white" }]}
-                            key={index} onPress={() => setColor(index)}>
-                            <Text style={[styles.listData, { color: index === selectedIndex ? 'white' : "#3642c0" }]}
-                                key={index} onPress={() => setColor(index)}>{item.value}</Text>
-                            <TouchableOpacity style={styles.btnEdit} onPress={() => handleEdit(index)}>
-                                <Text style={{ fontSize: 30, color: index === selectedIndex ? 'white' : "green" }}>{'\u270D'}</Text>
-                            </TouchableOpacity>
-                            <TouchableOpacity style={styles.btnDelete} onPress={() => handleDelete(index)}>
-                                <Text style={{ color: "red", fontSize: 25 }}>{'\u2715'}</Text>
-                            </TouchableOpacity>
-                        </View>
-                    )}
-                />
             </View>
+            <FlatList
+                keyExtractor={item => item.key}
+                data={data}
+                renderItem={({ item, index }) => (
+                    <View style={[styles.listContainer, { backgroundColor: index === selectedIndex ? '#3642c0' : "white" }]}
+                        key={index} onPress={() => setColor(index)}>
+                        <Text style={[styles.listData, { color: index === selectedIndex ? 'white' : "#3642c0" }]}
+                            key={index} onPress={() => setColor(index)}>{item.value}</Text>
+                        <TouchableOpacity style={styles.btnEdit} onPress={() => handleEdit(index)}>
+                            <Text style={{ fontSize: 30, color: index === selectedIndex ? 'white' : "green" }}>{'\u270D'}</Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity style={styles.btnDelete} onPress={() => handleDelete(index)}>
+                            <Text style={{ color: "red", fontSize: 25 }}>{'\u2715'}</Text>
+                        </TouchableOpacity>
+                    </View>
+                )}
+            />
         </View>
     )
 }

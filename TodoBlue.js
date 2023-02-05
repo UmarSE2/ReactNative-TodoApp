@@ -35,10 +35,6 @@ const TodoBlue = () => {
         setData(newTodos);
     };
 
-    const handlePress = (index) => {
-        setSelectedIndex(index)
-    };
-
     return (
         <View style={{ backgroundColor: "midnightblue", flex: 1, paddingHorizontal: 10 }}>
             <Text style={styles.header}>Todo App</Text>
@@ -53,12 +49,8 @@ const TodoBlue = () => {
             <FlatList
                 data={data}
                 renderItem={({ item, index }) => (
-                    <View style={[styles.itemContainer, { backgroundColor: index === selectedIndex ? 'lightgrey' : "white" }]}
-                        key={index} onPress={() => handlePress(index)}>
-                        <Text style={[styles.item, { backgroundColor: index === selectedIndex ? 'lightgrey' : null }]}
-                            key={index} onPress={() => handlePress(index)}>
-                            {item.value}
-                        </Text>
+                    <View style={styles.itemContainer}>
+                        <Text style={styles.item}>{item.value}</Text>
                         <TouchableOpacity style={styles.btnEdit} onPress={() => handleEdit(index)}>
                             <Text style={{ color: "green", fontSize: 28 }}>{'\u270D'}</Text>
                         </TouchableOpacity>
