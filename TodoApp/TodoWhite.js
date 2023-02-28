@@ -1,27 +1,31 @@
 import React, { useState } from 'react'
 import { FlatList, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native'
-
+import { toWork } from './Function';
 const TodoWhite = () => {
     const date = new Date();
-
     const [todo, setTodo] = useState();
     const [data, setData] = useState([]);
     const [editMode, setEditMode] = useState(false);
     const [editIndex, setEditIndex] = useState();
     const [selectedIndex, setSelectedIndex] = useState(null);
+    const [error, setError] = useState(false);
+    // toWork(editMode) USE HERE BY GIVING FUNCTION NAME AND STATES AS IT IS JUST CHANGE CONST WITH FUNCTION NAME
+    //Add 1
 
-    //Add Task
     const handleAdd = () => {
         if (!todo) {
+            setError(true);
         }
         else if (!editMode) {
             setData([...data, { key: Math.random().toString(), value: todo }])
+            setError(false);
         }
         else {
             const editTodo = [...data]
             editTodo[editIndex].value = todo
             setData(editTodo)
             setEditMode(false)
+            setError(false);
         }
         setTodo('')
     }
@@ -43,6 +47,7 @@ const TodoWhite = () => {
     //Clear List
     const clearList = () => {
         setData([])
+        setError(false);
     }
 
     //Selected Task
@@ -73,6 +78,7 @@ const TodoWhite = () => {
                         <Text style={styles.btnTextAdd}>{editMode ? "\u2713" : "+"}</Text>
                     </TouchableOpacity>
                 </View>
+                {error && <Text style={styles.errorMsge}>*Please Enter Something</Text>}
             </View>
             <FlatList
                 keyExtractor={item => item.key}
@@ -173,6 +179,12 @@ const styles = StyleSheet.create({
         color: "white",
         textAlign: "center",
         fontSize: 35,
+    },
+    errorMsge: {
+        color: "red",
+        fontSize: 17,
+        paddingLeft: 30,
+        marginTop: -8
     },
     listContainer: {
         flexDirection: "row",

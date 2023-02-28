@@ -6,7 +6,6 @@ const TodoBlue = () => {
     const [data, setData] = useState([]);
     const [editData, setEditData] = useState(false);
     const [editIndex, setEditIndex] = useState(-1);
-    const [selectedIndex, setSelectedIndex] = useState(null);
 
     const handleAdd = () => {
         if (!todo) {
