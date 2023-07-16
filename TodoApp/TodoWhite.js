@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { FlatList, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native'
-import { toWork } from './Function';
+
 const TodoWhite = () => {
     const date = new Date();
     const [todo, setTodo] = useState();
@@ -9,9 +9,8 @@ const TodoWhite = () => {
     const [editIndex, setEditIndex] = useState();
     const [selectedIndex, setSelectedIndex] = useState(null);
     const [error, setError] = useState(false);
-    // toWork(editMode) USE HERE BY GIVING FUNCTION NAME AND STATES AS IT IS JUST CHANGE CONST WITH FUNCTION NAME
-    //Add 1
 
+    //Add Task
     const handleAdd = () => {
         if (!todo) {
             setError(true);
@@ -37,7 +36,7 @@ const TodoWhite = () => {
         setTodo(data[index].value)
     }
 
-    //Delete Taslk
+    //Delete Task
     const handleDelete = (index) => {
         const deleteTodo = [...data]
         deleteTodo.splice(index, 1)
